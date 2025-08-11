@@ -19,12 +19,14 @@ func main() {
 		}
 	})
 
-	http.HandleFunc("/api/experience", func(w http.ResponseWriter, r *http.Request) {
+	http.HandleFunc("/api/experience/", func(w http.ResponseWriter, r *http.Request) {
 		switch r.Method {
 		case http.MethodGet:
 			handlers.GetExperienceInfo(w, r)
 		case http.MethodPost, http.MethodPut:
 			handlers.UpdateExperienceInfo(w, r)
+		case http.MethodDelete:
+			handlers.DeleteExperienceById(w, r)
 		default:
 			http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
 		}
