@@ -3,11 +3,11 @@ package models
 import "sync"
 
 type PersonalInfo struct {
-	Title       string `json:title`
-	Description string `json:description`
-	Address     string `json:addr`
-	Email       string `json:email`
-	PhoneNumber string `json:phone_number`
+	Title       string `json:"title"`
+	Description string `json:"description"`
+	Address     string `json:"addr"`
+	Email       string `json:"email"`
+	PhoneNumber string `json:"phone_number"`
 }
 
 // using defeult value for it 
