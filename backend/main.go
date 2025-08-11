@@ -19,6 +19,17 @@ func main() {
 		}
 	})
 
+	http.HandleFunc("/api/experience", func(w http.ResponseWriter, r *http.Request) {
+		switch r.Method {
+		case http.MethodGet:
+			handlers.GetExperienceInfo(w, r)
+		case http.MethodPost, http.MethodPut:
+			handlers.UpdateExperienceInfo(w, r)
+		default:
+			http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
+		}
+	})
+
 	log.Println("Server started at :8080")
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
