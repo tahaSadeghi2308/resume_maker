@@ -5,15 +5,20 @@ import (
 	"net/http"
 
 	"backend/handlers"
+	"backend/middleware"
 )
 
 func main() {
+	if err := middleware.LoadAPIKey(); err != nil {
+		log.Fatal(err)
+	}
+
 	http.HandleFunc("/api/personal-info", func(w http.ResponseWriter, r *http.Request) {
 		switch r.Method {
 		case http.MethodGet:
 			handlers.GetPersonalInfo(w, r)
 		case http.MethodPost, http.MethodPut:
-			handlers.UpdatePersonalInfo(w, r)
+			middleware.RequireAPIKey(handlers.UpdatePersonalInfo)(w, r)
 		default:
 			http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
 		}
@@ -24,9 +29,9 @@ func main() {
 		case http.MethodGet:
 			handlers.GetExperienceInfo(w, r)
 		case http.MethodPost, http.MethodPut:
-			handlers.UpdateExperienceInfo(w, r)
+			middleware.RequireAPIKey(handlers.UpdateExperienceInfo)(w, r)
 		case http.MethodDelete:
-			handlers.DeleteExperienceById(w, r)
+			middleware.RequireAPIKey(handlers.DeleteExperienceById)(w, r)
 		default:
 			http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
 		}
@@ -37,9 +42,9 @@ func main() {
 		case http.MethodGet:
 			handlers.GetSkillsInfo(w, r)
 		case http.MethodPost, http.MethodPut:
-			handlers.UpdateSkillsInfo(w, r)
+			middleware.RequireAPIKey(handlers.UpdateSkillsInfo)(w, r)
 		case http.MethodDelete:
-			handlers.DeleteSkillById(w, r)
+			middleware.RequireAPIKey(handlers.DeleteSkillById)(w, r)
 		default:
 			http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
 		}
