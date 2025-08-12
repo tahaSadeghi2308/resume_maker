@@ -2,9 +2,9 @@ name: Go CI
 
 on:
   push:
-    branches: [ "feature/dev-ops" ]
+    branches: [ "main" ]
   pull_request:
-    branches: [ "feature/dev-ops" ]
+    branches: [ "main" ]
 
 env:
   REGISTRY: ghcr.io
