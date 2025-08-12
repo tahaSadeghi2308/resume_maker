@@ -55,8 +55,8 @@ func DeleteExperienceById(w http.ResponseWriter, r *http.Request) {
 	}
 	models.ExperienceData = append(models.ExperienceData[:experIntID-1], models.ExperienceData[experIntID:]...)
 
-	for idx, exp := range models.ExperienceData {
-		exp.ID = uint8(idx + 1)
+	for idx := range models.ExperienceData {
+		models.ExperienceData[idx].ID = uint8(idx + 1)
 	}
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)

@@ -13,7 +13,7 @@ func GetSkillsInfo(w http.ResponseWriter, r *http.Request) {
 	models.SkillsMu.RLock()
 	defer models.SkillsMu.RUnlock()
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(models.ExperienceData)
+    json.NewEncoder(w).Encode(models.SkillsData)
 }
 
 func UpdateSkillsInfo(w http.ResponseWriter, r *http.Request) {
@@ -60,8 +60,8 @@ func DeleteSkillById(w http.ResponseWriter, r *http.Request) {
 	}
 	models.SkillsData = append(models.SkillsData[:skillIntID-1], models.SkillsData[skillIntID:]...)
 
-	for idx, skill := range models.SkillsData {
-		skill.ID = uint8(idx + 1)
+	for idx := range models.SkillsData {
+		models.SkillsData[idx].ID = uint8(idx + 1)
 	}
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusCreated)
