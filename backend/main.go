@@ -32,6 +32,19 @@ func main() {
 		}
 	})
 
+	http.HandleFunc("/api/skills/", func(w http.ResponseWriter, r *http.Request) {
+		switch r.Method {
+		case http.MethodGet:
+			handlers.GetSkillsInfo(w, r)
+		case http.MethodPost, http.MethodPut:
+			handlers.UpdateSkillsInfo(w, r)
+		case http.MethodDelete:
+			handlers.DeleteSkillById(w, r)
+		default:
+			http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
+		}
+	})
+
 	log.Println("Server started at :8080")
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
